@@ -23,7 +23,7 @@ function LeftSideBar() {
         navigate('/favourites')
     }
     return (
-        <div className='w-2/12 h-full bg-black text-zinc-300'>
+        <div className='w-2/12 h-[2800px] bg-black text-zinc-300'>
             <div className='px-5 py-6 flex flex-col gap-7'>
                 <div className='flex flex-col'>
                     <div onClick={hanldeNavigate1} className='transition flex mb-5 cursor-pointer items-center gap-4 hover:opacity-70'>
