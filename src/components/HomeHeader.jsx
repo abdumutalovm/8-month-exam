@@ -45,7 +45,7 @@ function HomeHeader() {
 
     return (
         <>
-            <div className='wrapper h-[3000px] px-[30px] py-[15px] mb-9 bg-[linear-gradient(0deg,_rgba(18,_18,_18,_1)_85%,_rgba(51,_51,_163,_1)_100%)]'>
+            <div className='wrapper h-[2000px] px-[30px] py-[15px] mb-9 bg-[linear-gradient(0deg,_rgba(18,_18,_18,_1)_85%,_rgba(51,_51,_163,_1)_100%)]'>
                 <HeaderPagination></HeaderPagination>
                 <h1 className='font-bold text-white text-[30px] mb-6'>Good afternoon</h1>
 
@@ -55,7 +55,7 @@ function HomeHeader() {
                             Array(6).fill(0).map((_, index) => <SkeletonLoader key={index} />)
                         ) : (
                             playlists.map((playlist) => (
-                                <div key={playlist.id} onClick={() => handleRedirect(playlist.id)} className='cursor-pointer flex items-center gap-4 w-[468px] rounded-md bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.12)]'>
+                                <div key={playlist.id} onClick={() => handleRedirect(playlist.id)} className='cursor-pointer flex items-center gap-4 2xl:w-[468px] lg:w-[368px] md:w-full rounded-md bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.12)]'>
                                     <img src={playlist.images[0]?.url || rec} alt={playlist.name} className='rounded-l-md w-[88px]' />
                                     <h1 className='text-white font-bold text-xl'>{playlist.name}</h1>
                                 </div>
@@ -70,8 +70,6 @@ function HomeHeader() {
                 <JumpBackIn></JumpBackIn>
                 <UniquelyYours></UniquelyYours>
             </div>
-
-
         </>
     );
 }
