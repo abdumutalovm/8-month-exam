@@ -33,6 +33,7 @@ function Musics() {
     const [currentSong, setCurrentSong] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef(null);
+    const [bgGray, setBgGray] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -80,6 +81,7 @@ function Musics() {
     };
 
     const playSong = (songUrl) => {
+        setBgGray(prevBgGray => !prevBgGray);
         if (audioRef.current) {
             if (currentSong === songUrl && isPlaying) {
                 audioRef.current.pause();
@@ -93,8 +95,22 @@ function Musics() {
         }
     };
 
+    const playNextSong = () => {
+        const currentIndex = playlist.tracks.items.findIndex(item => item.track.preview_url === currentSong);
+        const nextIndex = (currentIndex + 1) % playlist.tracks.items.length;
+        const nextSong = playlist.tracks.items[nextIndex].track.preview_url;
+        playSong(nextSong);
+    };
+
+    const playPreviousSong = () => {
+        const currentIndex = playlist.tracks.items.findIndex(item => item.track.preview_url === currentSong);
+        const previousIndex = (currentIndex - 1 + playlist.tracks.items.length) % playlist.tracks.items.length;
+        const previousSong = playlist.tracks.items[previousIndex].track.preview_url;
+        playSong(previousSong);
+    };
+
     return (
-        <div className='wrapper 2xl:w-[1000px] md:w-[550px] mx-auto px-4 2xl:px-6 md:px-4 2xl:py-6 md:py-3 bg-[linear-gradient(0deg,_rgba(18,_18,_18,_1)_95%,_rgb(51,_51,_163)_100%)]'>
+        <div className='wrapper 2xl:w-[1010px] md:w-[550px] mx-auto px-4 2xl:px-6 md:px-4 2xl:py-6 md:py-3 bg-[linear-gradient(0deg,_rgba(18,_18,_18,_1)_95%,_rgb(51,_51,_163)_100%)]'>
             <HeaderPagination />
             <div className='flex flex-col md:flex-row items-center gap-7'>
                 <img src={playlist.images[0]?.url || image} alt={playlist.description || 'Playlist image'} className='w-[200px] h-[200px]' />
@@ -148,7 +164,7 @@ function Musics() {
 
             <div className='pl-4 text-white'>
                 {playlist.tracks.items.map((item, index) => (
-                    <div key={item.track.id} className={`flex items-center px-2 py-1 mb-2 bg-[#121212] cursor-pointer hover:bg-zinc-800 ${favoriteSongs.includes(item.track.id) ? 'bg-green-500' : ''}`} onClick={() => playSong(item.track.preview_url)}>
+                    <div key={item.track.id} className={`flex items-center px-2 py-1 mb-2 cursor-pointer ${currentSong === item.track.preview_url && bgGray ? 'bg-zinc-700' : 'bg-[#121212]'} hover:bg-zinc-800`} onClick={() => playSong(item.track.preview_url)}>
                         <div className='flex items-center 2xl:gap-2 md:gap-1'>
                             <h1 className='2xl:mr-6 md:mr-2'>{index + 1}</h1>
                             <img src={item.track.album.images[0]?.url || image} alt={item.track.name} className='w-[52px]' />
@@ -187,19 +203,19 @@ function Musics() {
                         <h2 className='text-[14px]'>{currentSong ? playlist.tracks.items.find(item => item.track.preview_url === currentSong)?.track.artists.map(artist => artist.name).join(', ') : ''}</h2>
                     </div>
                 </div>
-                <div className='flex flex-col items-center'>
+                <div className='flex flex-col items-center justify-between'>
                     <div className='flex items-center gap-4'>
                         <img className='cursor-pointer hover:opacity-75' src={repeat} alt="repeat icon" />
-                        <SkipPreviousIcon />
+                        <SkipPreviousIcon onClick={playPreviousSong} className='cursor-pointer' />
                         <button className='transition hover:opacity-75' onClick={() => playSong(currentSong)}>
                             {isPlaying ? <PauseIcon className='text-white' sx={{ fontSize: "30px" }} /> : <PlayArrowIcon className='text-white' sx={{ fontSize: "30px" }} />}
                         </button>
-                        <SkipNextIcon />
+                        <SkipNextIcon onClick={playNextSong} className='cursor-pointer' />
                         <img className='cursor-pointer hover:opacity-75' src={shuffle} alt="shuffle icon" />
                     </div>
                     <img src={musicDur} alt="music duration" />
                 </div>
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-3 ml-[100px]'>
                     <img src={volume2} alt="" />
                     <img src={volume} alt="" />
                 </div>
