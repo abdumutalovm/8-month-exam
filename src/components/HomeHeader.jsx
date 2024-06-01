@@ -55,7 +55,7 @@ function HomeHeader() {
                             Array(6).fill(0).map((_, index) => <SkeletonLoader key={index} />)
                         ) : (
                             playlists.map((playlist) => (
-                                <div key={playlist.id} onClick={() => handleRedirect(playlist.id)} className='cursor-pointer flex items-center gap-4 2xl:w-[468px] lg:w-[368px] md:w-full rounded-md bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.12)]'>
+                                <div key={playlist.id} onClick={() => handleRedirect(playlist.id)} className='cursor-pointer flex items-center gap-4 mx-auto 2xl:w-[468px] lg:w-[368px] md:w-full rounded-md bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.12)]'>
                                     <img src={playlist.images[0]?.url || rec} alt={playlist.name} className='rounded-l-md w-[88px]' />
                                     <h1 className='text-white font-bold text-xl'>{playlist.name}</h1>
                                 </div>
